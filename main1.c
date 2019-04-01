@@ -20,6 +20,7 @@
  */
 int main(int argc, char** argv) {
     //clear screen
+    //I jennifer flanagan absolutely suck
     system("@cls||clear");
     
     printf("-------******-------Project By Kier McGuirk and Jennifer Flanagan-------******-------\n");
