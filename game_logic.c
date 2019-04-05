@@ -74,9 +74,45 @@ void printLine(){
  *        players - the array of the players
  *        numPlayers - the number of players  
  */
-void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
-    // TO BE IMPLEMENTED
-
+void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers)
+{   
+    //The min number of tokens placed on a square in the first column of the board
+    int minNumOfTokens = 0;
+    int selectedSquare = 0;
+    
+    for(int i=0; i<6; i++)
+    {
+      board[i][0].numTokens = 0;
+    }
+    
+    for(int i=0; i<4; i++)
+    {
+        
+        for(int j=0; j<numPlayers; j++)
+        {   
+            printf("Player %d please select a square\n", j);
+            scanf("%d", &selectedSquare);
+            
+            //You suck
+            while((board[selectedSquare][0].numTokens != minNumOfTokens))
+            {
+             printf("You cannot place a token here as it doesn't have the minimum number of tokens or because it is already occupied by your colour\n");
+             printf("Player %d please select another square \n",j);
+             scanf("%d", &selectedSquare);
+            }
+            
+            board[selectedSquare][0].stack = (token *)malloc(sizeof(token));
+            board[selectedSquare][0].stack->col = players[j].col;
+            board[selectedSquare][0].numTokens++;
+            
+            if(((numPlayers * i)+j+1)%NUM_ROWS ==0)
+            {
+                minNumOfTokens++;
+            }
+        }
+    }
+        
+    
 }
 
 
@@ -88,8 +124,9 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  *        numPlayers - the number of players  
  */
 
-void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
-    //TO BE IMPLEMENTED
+void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers)
+{
+    
 }
 
 
