@@ -20,10 +20,9 @@
  */
 int main(int argc, char** argv) {
     //clear screen
-    //I jennifer flanagan absolutely suck
     system("@cls||clear");
     
-    printf("-------******-------Project By Kier McGuirk and Jennifer Flanagan-------******-------\n");
+    printf("-------******-------Project By Kier McGuirk(18752609) and Jennifer Flanagan(18422084)-------******-------\n");
     
     //the board is defined as a 2-Dimensional array of squares
     square board[NUM_ROWS][NUM_COLUMNS];

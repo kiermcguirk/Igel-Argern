@@ -109,7 +109,6 @@ int initialize_players(player players[])
         {   
             //Notify the user that their input is invalid and get a valid choice
             printf("Invalid input, please enter a number shown \n");
-            printf("I guarantee jennifer entered the incorrect value! I am not surprised! \n");
             printf("\nEnter option: ");
             scanf("%d", &choice);
         }
@@ -118,8 +117,6 @@ int initialize_players(player players[])
         {   
             //Notify user that their choice is occupied and for them to get enter another choice
             printf("Someone has already chosen this colour! Please choose another! \n");
-            printf("Trust Kier(and annoying) to input ANOTHER invalid input, jesus christ \n");
-            printf("Trust jennifer to input ANOTHER invalid input, jesus christ \n");
             printf("\nEnter option: ");
             scanf("%d", &choice);
         }
