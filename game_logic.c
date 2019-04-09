@@ -6,7 +6,10 @@
 
 
 #include "game_init.h"
+#include "game_logic.h"
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 void printLine();
 
@@ -56,7 +59,7 @@ void print_board(square board[NUM_ROWS][NUM_COLUMNS]){
             }
             printf("| %c ", c);
         }
-        printf ("|\n");
+        printf("|\n");
     }
     printLine();
     //prints the number of the columns at the end of the board
@@ -124,10 +127,87 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  *        numPlayers - the number of players  
  */
 
+
+/*
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers)
-{
+{   
     
+    
+    printf("\nThe game will now begin!\n");
+    int winner =0;
+    
+    while(winner == 0)
+    {
+        for(int i=0; i<numPlayers; i++)
+        {
+           printf("Player %d has rolled the dice\n", i);
+           int throw = rand()%6;
+           struct player *playerPtr;
+           *playerPtr = players[i];
+        
+           printf("Player %d has rolled: %d", i, throw);
+           check_board(board, playerPtr);
+           
+           
+                   
+        }
+        
+    }
+}
+
+void check_board(square board[NUM_ROWS][NUM_COLUMNS],player *player)
+{   
+    int player_num;
+    for(int i=0; i<NUM_ROWS; i++)
+    {
+        for(int j=0; j<NUM_COLUMNS; j++)
+        {
+            if(board[i][j].stack->col == (*player).col)
+            {
+                int choice;
+                printf("\nYou have a token at [%d,%d], would you like to move it? Enter 1 for yes, 2 for no\n", i,j);
+                printf("Enter option: ");
+                scanf("%d", &choice);
+                
+                if(choice == 2)
+                {
+                    continue;
+                }
+                else if(choice == 1)
+                {   
+                    
+                    int choice2;
+                    printf("\n Would you like to move the token to [%d, %d]? Enter 1 for yes, 2 for no\n", i-1, j);
+                    printf("Enter option: ");
+                    scanf("%d", &choice2);
+                    
+                    if(choice2 == 1)
+                    {
+                        /*
+                        board[i-1][j].stack = (token *)malloc(sizeof(token));
+                        board[i-1][j].stack->col = players[j].col;
+                        board[i-1][j].numTokens++;
+                        
+                        board[i][j].stack = (token *)malloc(sizeof(token));
+                        board[i][j].stack->col = players[j].col;
+                        board[i][j].numTokens--;
+                        
+                    }
+                }
+                
+            }
+        }
+    }
 }
 
 
+void push(token *top, player *player)
+{
+    
+    token *c = top;
+    top = malloc(sizeof(token));
+    top->col = (*player).col;
+    top->next = c;
+}
+*/
 
