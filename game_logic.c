@@ -19,7 +19,8 @@ void printLine();
  * Input: t - pointer to a token
  * Output: initial of the color of the token
  */
-char print_token(token *t){
+char print_token(token *t)
+{
     if((*t).col== PINK) return 'P';
     if((*t).col== RED) return 'R';
     if((*t).col== BLUE) return 'B';
@@ -97,7 +98,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
             scanf("%d", &selectedSquare);
             
             //You suck
-            while((board[selectedSquare][0].numTokens != minNumOfTokens))
+            while((board[selectedSquare][0].numTokens != minNumOfTokens) && (board[selectedSquare][0].stack->col == players[j].col))
             {
              printf("You cannot place a token here as it doesn't have the minimum number of tokens or because it is already occupied by your colour\n");
              printf("Player %d please select another square \n",j);
@@ -108,6 +109,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
             board[selectedSquare][0].stack->col = players[j].col;
             board[selectedSquare][0].numTokens++;
             
+            print_board(board);
             if(((numPlayers * i)+j+1)%NUM_ROWS ==0)
             {
                 minNumOfTokens++;
@@ -128,13 +130,13 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 
 
-/*
-void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers)
+
+void play_game(square board[][NUM_COLUMNS], player players[], int numPlayers)
 {   
-    
+    print_board(board);
     
     printf("\nThe game will now begin!\n");
-    int winner =0;
+    int winner = 0;
     
     while(winner == 0)
     {
@@ -142,8 +144,9 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
         {
            printf("Player %d has rolled the dice\n", i);
            int throw = rand()%6;
+      
            struct player *playerPtr;
-           *playerPtr = players[i];
+           playerPtr = &players[i];
         
            printf("Player %d has rolled: %d", i, throw);
            check_board(board, playerPtr);
@@ -155,14 +158,20 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
     }
 }
 
-void check_board(square board[NUM_ROWS][NUM_COLUMNS],player *player)
+void check_board(square board[][NUM_COLUMNS],player *player)
 {   
+    printf("no im here mfka");
     int player_num;
     for(int i=0; i<NUM_ROWS; i++)
     {
         for(int j=0; j<NUM_COLUMNS; j++)
-        {
-            if(board[i][j].stack->col == (*player).col)
+        {   
+            if(board[i][j].stack == NULL)
+            {
+                continue;
+            }
+                
+            else if(board[i][j].stack->col == (*player).col)
             {
                 int choice;
                 printf("\nYou have a token at [%d,%d], would you like to move it? Enter 1 for yes, 2 for no\n", i,j);
@@ -175,39 +184,57 @@ void check_board(square board[NUM_ROWS][NUM_COLUMNS],player *player)
                 }
                 else if(choice == 1)
                 {   
-                    
-                    int choice2;
-                    printf("\n Would you like to move the token to [%d, %d]? Enter 1 for yes, 2 for no\n", i-1, j);
+                    if(!((i-1)<0))
+                    {
+                        int choice2;
+                        printf("\n Would you like to move the token to [%d, %d]? Enter 1 for yes, 2 for no\n", i-1, j);
+                        printf("Enter option: ");
+                        scanf("%d", &choice2);
+                        
+                        if(choice2 == 1)
+                        {   
+                            //struct player **playerPtr = malloc(sizeof(struct player));
+                            //**playerPtr = *player;
+                            struct token **ptr;
+                            ptr = &board[i-1][j].stack;
+                            push(ptr, player);
+                            print_board(board);
+                            continue;
+                            
+                            
+                        }
+                    }
+                    int choice2; 
+                    printf("\n Would you like to move the token to [%d, %d]? Enter 1 for yes, 2 for no\n", i+1, j);
                     printf("Enter option: ");
                     scanf("%d", &choice2);
                     
                     if(choice2 == 1)
-                    {
-                        /*
-                        board[i-1][j].stack = (token *)malloc(sizeof(token));
-                        board[i-1][j].stack->col = players[j].col;
-                        board[i-1][j].numTokens++;
-                        
-                        board[i][j].stack = (token *)malloc(sizeof(token));
-                        board[i][j].stack->col = players[j].col;
-                        board[i][j].numTokens--;
-                        
-                    }
-                }
-                
+                    {   
+                        struct token **ptr;
+                        ptr = &board[i+1][j].stack;
+                        push(ptr, player);
+                        print_board(board);
+                        continue;
+                    }   
+                } 
             }
         }
     }
 }
 
 
-void push(token *top, player *player)
+void push(token *top, struct player *player)
 {
+    printf("im here mffka");
+    struct token *c = top;
     
-    token *c = top;
-    top = malloc(sizeof(token));
+    top = (token*)malloc(sizeof(token));
     top->col = (*player).col;
     top->next = c;
+    
+    printf("Stack col: %d\n", top->col);
 }
-*/
+
+
 

@@ -25,11 +25,12 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  *        players - the array of the players
  *        numPlayers - the number of players 
  */
+
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 
-/*
+
 void check_board(square board[NUM_ROWS][NUM_COLUMNS],player players[]);
 
 
-void push(token *c, player *player);
-*/
+void push(token *c, struct player *player);
+

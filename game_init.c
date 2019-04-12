@@ -15,7 +15,8 @@
  * Input: board - a 6x9 array of squares
  *
  */
-void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
+void initialize_board(square board[NUM_ROWS][NUM_COLUMNS])
+{
    
     for (int i =0; i< NUM_ROWS; i++){
         for(int j =0; j < NUM_COLUMNS; j++){
@@ -84,9 +85,9 @@ int initialize_players(player players[])
         //Prompt user to input the ith player's name
         printf("\nPlayer %d please enter your name:\n", i+1); // i jenniger sucks massively 
         
-        fgets(players[i].username,MAX_NAME_LEN, stdin); //Store input in ith username attriute in the players array
-        //scanf("%s", players[i].username); 
-        fflush( stdout );
+        //fgets(players[i].username,MAX_NAME_LEN, stdin); //Store input in ith username attriute in the players array
+        scanf("%s", players[i].username); 
+        //fflush( stdout );
         
         //Ask current player to choose a colour
         printf("\n%s, please choose your colour:\n", players[i].username);
