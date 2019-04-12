@@ -27,9 +27,9 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 
-/*
+
 void check_board(square board[NUM_ROWS][NUM_COLUMNS],player players[]);
 
 
 void push(token *c, player *player);
-*/
+

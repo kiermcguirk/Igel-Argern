@@ -93,14 +93,14 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
         
         for(int j=0; j<numPlayers; j++)
         {   
-            printf("Player %d please select a square\n", j);
+            printf("Player %d please select a square: ", j+1);   // ADDED +1 so player number displayed in correct range
             scanf("%d", &selectedSquare);
             
-            //You suck
+            
             while((board[selectedSquare][0].numTokens != minNumOfTokens))
             {
              printf("You cannot place a token here as it doesn't have the minimum number of tokens or because it is already occupied by your colour\n");
-             printf("Player %d please select another square \n",j);
+             printf("Player %d please select another square: ",j+1);   // ADDED +1
              scanf("%d", &selectedSquare);
             }
             
@@ -128,7 +128,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 
 
-/*
+
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers)
 {   
     
@@ -185,13 +185,13 @@ void check_board(square board[NUM_ROWS][NUM_COLUMNS],player *player)
                     {
                         /*
                         board[i-1][j].stack = (token *)malloc(sizeof(token));
-                        board[i-1][j].stack->col = players[j].col;
+                        board[i-1][j].stack->col = player[j].col;
                         board[i-1][j].numTokens++;
                         
                         board[i][j].stack = (token *)malloc(sizeof(token));
-                        board[i][j].stack->col = players[j].col;
+                        board[i][j].stack->col = player[j].col;
                         board[i][j].numTokens--;
-                        
+                        */
                     }
                 }
                 
@@ -209,5 +209,5 @@ void push(token *top, player *player)
     top->col = (*player).col;
     top->next = c;
 }
-*/
+
 
