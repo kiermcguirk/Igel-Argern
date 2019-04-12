@@ -7,7 +7,7 @@
 
 #include "game_init.h"
 #include <stdio.h>
-
+#include <string.h> // ADDED
 
 /*
  * This function creates the board for the first time
@@ -47,6 +47,7 @@ int initialize_players(player players[])
     int choice; //Declare integer variable to store the user choice
     int player_count = 0; //Initialise integer variable that stores player count to 0
     int next_user=0; //Declare integer variable to act as a boolean for if the user would like to enter more players and initialise it to 0
+    char buffer[MAX_NAME_LEN];  // ADDED
     
     //For loop from 0 to maximum number of players
     for (int i=0; i<6; i++)
@@ -57,7 +58,9 @@ int initialize_players(player players[])
             //Prompt the user to input whether or not they would like to continue entering players
             printf("\n*Would you like to continue entering players?*\n1: Yes \n2: No");
             printf("\nEnter option: ");
-            scanf("%d", &next_user); //Store user choice in integer variable next_user
+            fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
+            next_user = atoi(buffer);   // ADDED  
+            // scanf("%d", &next_user); //Store user choice in integer variable next_user
             
             //While the value entered is not 1 or 2
             while(!(next_user == 1 || next_user == 2))
@@ -65,7 +68,9 @@ int initialize_players(player players[])
                 //Notify user that their input is invalid and prompt them to enter a valid value
                 printf("\nInvalid Input! Please enter again:\n");
                 printf("\nEnter option: ");
-                scanf("%d", &next_user);
+                fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
+                next_user = atoi(buffer);   // ADDED  
+                // scanf("%d", &next_user);
             }
         }
         //If the user chose not to enter more players
@@ -83,29 +88,33 @@ int initialize_players(player players[])
         }
         
         //Prompt user to input the ith player's name
-        printf("\nPlayer %d please enter your name:\n", i+1); // i jenniger sucks massively 
+        printf("\nPlayer %d please enter your name:", i+1); 
         
-        //fgets(players[i].username,MAX_NAME_LEN, stdin); //Store input in ith username attriute in the players array
-        scanf("%s", players[i].username); 
-        //fflush( stdout );
+        fgets(players[i].username,MAX_NAME_LEN, stdin); //Store input in ith username attribute in the players array
+        players[i].username[strcspn(players[i].username, "\n")] = 0;  // remove trailing newline   ADDED
+        
+        //scanf("%s", players[i].username);   // COMMENTED OUT
+        //fflush( stdout ); //fflush used to clear out the output buffer  // COMMENTED OUT
         
         //Ask current player to choose a colour
-        printf("\n%s, please choose your colour:\n", players[i].username);
+        printf("%s, please choose your colour:\n", players[i].username);
         
         //for loop from i =0 to maximum number of players
         for(int i=0; i<6; i++)
         {   
-            //If the ith element in the color_array is not 'x'
+            //If the ith element in the colour_array is not 'x'
             if(!(color_array[i] == 'x'))
             {   
                 //Output the choosable colour to the user 
                 printf("\n~Please enter %d for ",i+1);
-                printf("%c \n", color_array[i]);
+                printf("%c ", color_array[i]);
             }
         }
         //Prompt user to choose a colour and store it in an integer variable, from 1-6
         printf("\nEnter option: ");
-        scanf("%d", &choice); 
+        fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
+        choice = atoi(buffer);   // ADDED  
+       // fflush( stdin ); //fflush used to clear out the output buffer  // COMMENTED OUT 
         
         //While the user's choice is greater than 6 or less than 1
         while (choice > 6 || choice < 1)
@@ -113,7 +122,9 @@ int initialize_players(player players[])
             //Notify the user that their input is invalid and get a valid choice
             printf("Invalid input, please enter a number shown \n");
             printf("\nEnter option: ");
-            scanf("%d", &choice);
+            fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
+            choice = atoi(buffer);   // ADDED  
+            // scanf("%d", &choice);
         }
         //While the user's choice is already in use
         while(color_array[choice-1] == 'x')
@@ -121,7 +132,9 @@ int initialize_players(player players[])
             //Notify user that their choice is occupied and for them to get enter another choice
             printf("Someone has already chosen this colour! Please choose another! \n");
             printf("\nEnter option: ");
-            scanf("%d", &choice);
+            fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
+            choice = atoi(buffer);   // ADDED  
+            // scanf("%d", &choice);
         }
         //Switch expression for the user's choice
         switch(choice)
@@ -170,7 +183,7 @@ int initialize_players(player players[])
     //Output the players and their selected colours to the user
     for(int i=0; i<player_count; i++)
     {
-        printf("%s \t %d\n", players[i].username, players[i].col);
+        printf("%s \t %d\n", players[i].username, players[i].col+1); // ADDED +1
     }
     
     //Return the value of player count to the main function

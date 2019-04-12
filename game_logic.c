@@ -94,14 +94,14 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
         
         for(int j=0; j<numPlayers; j++)
         {   
-            printf("Player %d please select a square\n", j);
+            printf("Player %d please select a square", j);
             scanf("%d", &selectedSquare);
             
-            //You suck
+            
             while((board[selectedSquare][0].numTokens != minNumOfTokens) && (board[selectedSquare][0].stack->col == players[j].col))
             {
              printf("You cannot place a token here as it doesn't have the minimum number of tokens or because it is already occupied by your colour\n");
-             printf("Player %d please select another square \n",j);
+             printf("Player %d please select another square ",j);
              scanf("%d", &selectedSquare);
             }
             
@@ -160,7 +160,7 @@ void play_game(square board[][NUM_COLUMNS], player players[], int numPlayers)
 
 void check_board(square board[][NUM_COLUMNS],player *player)
 {   
-    printf("no im here mfka");
+    printf("debugging printf");
     int player_num;
     for(int i=0; i<NUM_ROWS; i++)
     {
@@ -226,7 +226,7 @@ void check_board(square board[][NUM_COLUMNS],player *player)
 
 void push(token *top, struct player *player)
 {
-    printf("im here mffka");
+    printf("Another debugging printf");
     struct token *c = top;
     
     top = (token*)malloc(sizeof(token));
