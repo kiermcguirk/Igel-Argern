@@ -193,6 +193,7 @@ void move_token_forward(square board[][NUM_COLUMNS], int throw)
                board[throw][i+1] = push(&board[throw][i+1],colourPtr);
                board[throw][i] = pop(&board[throw][i]);                              
                print_board(board);
+               //asdflk;j
 
            }
        }
@@ -252,6 +253,7 @@ void check_board(square board[][NUM_COLUMNS],player *player)
                                 colourPtr = &(*player).col;
                                 board[i-1][j] = push(&board[i-1][j], colourPtr);
                                 board[i][j] = pop(&board[i][j]);
+                                print_board(board);
                                 sidestep=1;
                                 break;
                             }
@@ -281,8 +283,6 @@ void check_board(square board[][NUM_COLUMNS],player *player)
 
 struct square push(struct square *top, enum color *colourPtr)
 {
-    printf("Another debugging printf");
-    
     struct token *c = (*top).stack;
     
     (*top).stack = (token*)malloc(sizeof(token));
