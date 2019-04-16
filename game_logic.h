@@ -31,6 +31,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 
 void check_board(square board[NUM_ROWS][NUM_COLUMNS],player players[]);
 
+void move_token_forward(square board[NUM_ROWS][NUM_COLUMNS], player *player, int throw);
 
 struct square push(struct square *top, struct player *player);
 
