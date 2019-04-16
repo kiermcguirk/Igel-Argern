@@ -142,7 +142,7 @@ void play_game(square board[][NUM_COLUMNS], player players[], int numPlayers)
     
     printf("\nThe game will now begin!\n");
     int winner = 0;
-    int check =0;
+    
     
     while(winner == 0)
     {   
@@ -157,73 +157,47 @@ void play_game(square board[][NUM_COLUMNS], player players[], int numPlayers)
                      
            printf("Player %d has rolled: %d", i, throw);
            check_board(board, playerPtr);
-           move_token_forward(board, playerPtr, throw);
+           move_token_forward(board, throw);
            
         }
     }
 }
 
-void move_token_forward(square board[NUM_ROWS][NUM_COLUMNS], player *player, int throw)
+void move_token_forward(square board[][NUM_COLUMNS], int throw)
 {   
    // loop through all squares in row[throw]
    // if row[throw] square (top of stack token col) == player col
    // then ask player if wants to move token. 
-            
-   int i = 0;
+           
    int playerMovedToken = 0;
-   char inputBuf[20];
-   struct token *ptr, *ptr2;
+   int choice;
    
    
-   for (i=0; i<NUM_COLUMNS-1; i++){
-       if (board[throw][i].stack->col == player->col && playerMovedToken == 0) {
-           printf("Found a %d token in square row %d, column %d.", (int)player->col, throw, i);
-           printf("Do you wish to move it (y/n)? ");
-           scanf("%s",&inputBuf);
-           if (inputBuf[0] == 'y') { // move a player token to next right square
+   for (int i=0; i<NUM_COLUMNS-1; i++)
+   {    
+       if(playerMovedToken == 1)
+       {
+           break;
+       }
+       else if(board[throw][i].stack != NULL && playerMovedToken == 0)
+       {
+           printf("Found a token in square [%d,%d].", throw, i);
+           printf("Do you wish to move it (1/2)? ");
+           scanf("%d",&choice);
+           if (choice == 1) 
+           { // move a player token to next right square
                playerMovedToken = 1;
-               
-               ptr = &board[throw][i+1].stack;
-               push(ptr, player);  // put player token on stack at new square
-               board[throw][i+1].numTokens++;
-               print_board(board); // leave for debugging                   
-              
-               ptr2 = &board[throw][i].stack;
-               //pop(ptr2, player);  // use when implemented, remove player token from vacated previous square
+               enum color *colourPtr;
+               colourPtr = &board[throw][i].stack->col;
+               printf("%d this is colour ptr", *colourPtr);              
+               board[throw][i+1] = push(&board[throw][i+1],colourPtr);
+               board[throw][i] = pop(&board[throw][i]);                              
                print_board(board);
 
            }
        }
-   } // for loop
-   
-   if (playerMovedToken == 0) { // player moved none of own tokens - need to move other token
-     for (i=0; i<NUM_COLUMNS-1; i++){
-         if (board[throw][i].stack != NULL && playerMovedToken == 0) {
-             printf("Found a %d token in square row %d, column %d.", (int)board[throw][i].stack->col, throw, i);
-             printf("Do you wish to move it (y/n)? ");
-             scanf("%s",&inputBuf);
-             if (inputBuf[0] == 'y') { // move square token to next right square
-                 playerMovedToken = 1;             
-                 ptr = &board[throw][i+1].stack;
-                 push_token_on_square_stack(ptr, board[throw][i].stack->col);  // put square token on stack at new square
-                 board[throw][i+1].numTokens++;
-                 print_board(board); // leave for debugging                   
-
-                 ptr2 = &board[throw][i].stack;
-                 pop_token_from_square_stack(ptr2);  // remove player token from vacated previous square
-                 print_board(board);
-
-             }
-         }
-     }  // for loop
-   
-   }
-   if (playerMovedToken == 0) {  // player didn't move any of own or other tokens 
-       printf("LOGGING: No token moved\n");
-   }
-   print_board(board);
-   
-       
+   } // for loop   
+      
 }
 
 
@@ -231,11 +205,9 @@ void move_token_forward(square board[NUM_ROWS][NUM_COLUMNS], player *player, int
 void check_board(square board[][NUM_COLUMNS],player *player)
 {   
     int sidestep =0;
-    printf("debugging printf");
-    int player_num;
     for(int i=0; i<NUM_ROWS; i++)
     {   
-        printf("sidestep is %d", sidestep);
+        
         if(sidestep==1)
         {
             break;
@@ -245,7 +217,6 @@ void check_board(square board[][NUM_COLUMNS],player *player)
         {   
             if(sidestep == 1)
             {   
-                printf("why ament i here");
                 break;
             }
             if(board[i][j].stack == NULL)
@@ -277,13 +248,10 @@ void check_board(square board[][NUM_COLUMNS],player *player)
 
                             if(choice2 == 1)
                             {   
-                                //struct player **playerPtr = malloc(sizeof(struct player));
-                                //**playerPtr = *player;
-                                //struct token **ptr;
-                                //ptr = &board[i-1][j].stack;
-                                board[i-1][j] = push(&board[i-1][j], player);
+                                enum color *colourPtr;
+                                colourPtr = &(*player).col;
+                                board[i-1][j] = push(&board[i-1][j], colourPtr);
                                 board[i][j] = pop(&board[i][j]);
-                                print_board(board);
                                 sidestep=1;
                                 break;
                             }
@@ -295,10 +263,9 @@ void check_board(square board[][NUM_COLUMNS],player *player)
 
                         if(choice2 == 1)
                         {   
-                            //struct token **ptr;
-                            board[i+1][j] = push(&board[i+1][j], player);
-                            printf("Stack top col: %d\n", board[i][j].stack->col);
-                           // printf("Stack next col: %d\n", board[i][j].stack->next->col);
+                            enum color *colourPtr;
+                            colourPtr = &(*player).col;
+                            board[i+1][j] = push(&board[i+1][j], colourPtr);
                             board[i][j] = pop(&board[i][j]);
                             print_board(board);
                             sidestep=1;
@@ -312,27 +279,17 @@ void check_board(square board[][NUM_COLUMNS],player *player)
 }
 
 
-struct square push(struct square *top, struct player *player)
+struct square push(struct square *top, enum color *colourPtr)
 {
     printf("Another debugging printf");
     
     struct token *c = (*top).stack;
     
     (*top).stack = (token*)malloc(sizeof(token));
-    (*top).stack->col = (*player).col;
+    (*top).stack->col = *colourPtr;
     (*top).stack->next = c;
     (*top).numTokens++;
-    
-    printf("Stack col: %d\n", (*top).stack->next->col);
-     
-     
-    /*
-    struct square *c = top;
-    
-    (*top).stack = (token*)malloc(sizeof(token));
-    (*top).stack->col = (*player).col;
-    (*top).stack->next = c.stack;
-    */
+        
     return *top;
 }
 
