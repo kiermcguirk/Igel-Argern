@@ -105,8 +105,14 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
              scanf("%d", &selectedSquare);
             }
             
+            struct token *c = board[selectedSquare][0].stack;
             board[selectedSquare][0].stack = (token *)malloc(sizeof(token));
             board[selectedSquare][0].stack->col = players[j].col;
+            if(board[selectedSquare][0].numTokens >0)
+            {   
+                
+                board[selectedSquare][0].stack->next = c;
+            }
             board[selectedSquare][0].numTokens++;
             
             print_board(board);
@@ -137,9 +143,13 @@ void play_game(square board[][NUM_COLUMNS], player players[], int numPlayers)
     
     printf("\nThe game will now begin!\n");
     int winner = 0;
+    int check =0;
     
+    printf("Stack top col: %d\n", board[2][0].stack->col);
+    printf("Stack next col: %d\n", board[2][0].stack->next->col);
     while(winner == 0)
-    {
+    {   
+        
         for(int i=0; i<numPlayers; i++)
         {
            printf("Player %d has rolled the dice\n", i);
@@ -147,25 +157,34 @@ void play_game(square board[][NUM_COLUMNS], player players[], int numPlayers)
       
            struct player *playerPtr;
            playerPtr = &players[i];
-        
+                     
            printf("Player %d has rolled: %d", i, throw);
            check_board(board, playerPtr);
            
-           
-                   
         }
-        
     }
 }
 
 void check_board(square board[][NUM_COLUMNS],player *player)
 {   
+    int sidestep =0;
     printf("debugging printf");
     int player_num;
     for(int i=0; i<NUM_ROWS; i++)
-    {
+    {   
+        printf("sidestep is %d", sidestep);
+        if(sidestep==1)
+        {
+            break;
+        }
+         
         for(int j=0; j<NUM_COLUMNS; j++)
         {   
+            if(sidestep == 1)
+            {   
+                printf("why ament i here");
+                break;
+            }
             if(board[i][j].stack == NULL)
             {
                 continue;
@@ -195,13 +214,13 @@ void check_board(square board[][NUM_COLUMNS],player *player)
                         {   
                             //struct player **playerPtr = malloc(sizeof(struct player));
                             //**playerPtr = *player;
-                            struct token **ptr;
-                            ptr = &board[i-1][j].stack;
-                            push(ptr, player);
+                            //struct token **ptr;
+                            //ptr = &board[i-1][j].stack;
+                            board[i-1][j] = push(&board[i-1][j], player);
+                            board[i][j] = pop(&board[i][j]);
                             print_board(board);
-                            continue;
-                            
-                            
+                            sidestep=1;
+                            break;
                         }
                     }
                     int choice2; 
@@ -211,11 +230,14 @@ void check_board(square board[][NUM_COLUMNS],player *player)
                     
                     if(choice2 == 1)
                     {   
-                        struct token **ptr;
-                        ptr = &board[i+1][j].stack;
-                        push(ptr, player);
+                        //struct token **ptr;
+                        board[i+1][j] = push(&board[i+1][j], player);
+                        printf("Stack top col: %d\n", board[i][j].stack->col);
+                       // printf("Stack next col: %d\n", board[i][j].stack->next->col);
+                        board[i][j] = pop(&board[i][j]);
                         print_board(board);
-                        continue;
+                        sidestep=1;
+                        break;
                     }   
                 } 
             }
@@ -224,16 +246,42 @@ void check_board(square board[][NUM_COLUMNS],player *player)
 }
 
 
-void push(token *top, struct player *player)
+struct square push(struct square *top, struct player *player)
 {
     printf("Another debugging printf");
-    struct token *c = top;
     
-    top = (token*)malloc(sizeof(token));
-    top->col = (*player).col;
-    top->next = c;
+    struct token *c = (*top).stack;
     
-    printf("Stack col: %d\n", top->col);
+    (*top).stack = (token*)malloc(sizeof(token));
+    (*top).stack->col = (*player).col;
+    (*top).stack->next = c;
+    (*top).numTokens++;
+    
+    printf("Stack col: %d\n", (*top).stack->next->col);
+     
+     
+    /*
+    struct square *c = top;
+    
+    (*top).stack = (token*)malloc(sizeof(token));
+    (*top).stack->col = (*player).col;
+    (*top).stack->next = c.stack;
+    */
+    return *top;
+}
+
+struct square pop(struct square *top)
+{
+    struct token *c = (*top).stack;
+    if(c!=NULL)
+    {
+        (*top).stack = c->next;
+        (*top).numTokens--;
+        free(c); 
+        
+    }
+    return *top;
+    
 }
 
 
