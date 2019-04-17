@@ -306,7 +306,7 @@ struct square pop(struct square *top)
         
         if((*top).numTokens == 1)
         {
-          (*top).stack = c;
+          (*top).stack = NULL;
         }
         //(*top).stack = c->next; 
         (*top).numTokens--;
