@@ -57,6 +57,7 @@ typedef struct player{
     char username[MAX_NAME_LEN];
     enum color col;
     int numTokensLastCol;
+    int winningTokens;
     
     
 }player; 

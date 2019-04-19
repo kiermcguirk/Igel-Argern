@@ -53,7 +53,7 @@ int initialize_players(player players[])
     for (int i=0; i<6; i++)
     {   
         //If the current number of players is greater than 1
-        if(player_count > 1)
+        if(player_count >= 1)
         {   
             //Prompt the user to input whether or not they would like to continue entering players
             printf("\n*Would you like to continue entering players?*\n1: Yes \n2: No");
