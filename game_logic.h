@@ -1,30 +1,9 @@
 #include <stdbool.h>
-/*
- * Prints the board
- * 
- * Input: the board to be printed. 
- */
+
+//Declare function prototypes
 void print_board(square board[NUM_ROWS][NUM_COLUMNS]);
 
-
-/*
- * Place tokens in the first column of the board
- * 
- * Input: board - a 6x9 array of squares that represents the board
- *        players - the array of the players
- *        numPlayers - the number of players  
- */
 void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
-
-
-
-/* 
- *  * Manages the logic of the game
- * 
- * Input: board - a 6x9 array of squares that represents the board
- *        players - the array of the players
- *        numPlayers - the number of players 
- */
 
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 
@@ -36,7 +15,7 @@ struct square push(struct square *top, enum color *colourPtr);
 
 struct square pop(struct square *top);
 
-bool checkobstacle(square board[NUM_ROWS][NUM_COLUMNS], int index);
+bool checkobstacle(square board[NUM_ROWS][NUM_COLUMNS], int index_j, int index_i);
 
 void designline();
 
@@ -47,6 +26,8 @@ void credits();
 bool checkWinner(struct player selectedPlayer);
 
 bool checkforcolour(struct square selectedSquare, struct player selectedPlayer);
+
+void printLine();
 
 
 

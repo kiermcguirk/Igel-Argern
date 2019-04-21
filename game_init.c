@@ -91,13 +91,11 @@ int initialize_players(player players[])
         printf("\nPlayer %d please enter your name:", i+1); 
         
         fgets(players[i].username,MAX_NAME_LEN, stdin); //Store input in ith username attribute in the players array
-        players[i].username[strcspn(players[i].username, "\n")] = 0;  // remove trailing newline   ADDED
+        players[i].username[strcspn(players[i].username, "\n")] = 0;  // remove trailing newline   
         
-        //scanf("%s", players[i].username);   // COMMENTED OUT
-        //fflush( stdout ); //fflush used to clear out the output buffer  // COMMENTED OUT
         
         //Ask current player to choose a colour
-        printf("%s, please choose your colour:\n", players[i].username);
+        printf("%s, please choose your colour of hedgehog:\n", players[i].username);
         
         //for loop from i =0 to maximum number of players
         for(int i=0; i<6; i++)
@@ -112,9 +110,8 @@ int initialize_players(player players[])
         }
         //Prompt user to choose a colour and store it in an integer variable, from 1-6
         printf("\nEnter option: ");
-        fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
-        choice = atoi(buffer);   // ADDED  
-       // fflush( stdin ); //fflush used to clear out the output buffer  // COMMENTED OUT 
+        fgets(buffer, MAX_NAME_LEN, stdin);   
+        choice = atoi(buffer);   
         
         //While the user's choice is greater than 6 or less than 1
         while (choice > 6 || choice < 1)
@@ -122,9 +119,9 @@ int initialize_players(player players[])
             //Notify the user that their input is invalid and get a valid choice
             printf("Invalid input, please enter a number shown \n");
             printf("\nEnter option: ");
-            fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
-            choice = atoi(buffer);   // ADDED  
-            // scanf("%d", &choice);
+            fgets(buffer, MAX_NAME_LEN, stdin);   
+            choice = atoi(buffer);  
+            
         }
         //While the user's choice is already in use
         while(color_array[choice-1] == 'x')
@@ -132,9 +129,8 @@ int initialize_players(player players[])
             //Notify user that their choice is occupied and for them to get enter another choice
             printf("Someone has already chosen this colour! Please choose another! \n");
             printf("\nEnter option: ");
-            fgets(buffer, MAX_NAME_LEN, stdin);   // ADDED
-            choice = atoi(buffer);   // ADDED  
-            // scanf("%d", &choice);
+            fgets(buffer, MAX_NAME_LEN, stdin);   
+            choice = atoi(buffer);     
         }
         //Switch expression for the user's choice
         switch(choice)
@@ -168,8 +164,10 @@ int initialize_players(player players[])
             case 6: 
                 players[i].col = ORANGE; //Set the ith player's colour to orange
                 color_array[5] = 'x'; //Set orange in the colours array to x to prevent repetition
-                break;             
+                break;   
+                
         }
+        players[i].winningTokens =0;
         player_count++; //Increment the player count
     }
     //Print horizontal line

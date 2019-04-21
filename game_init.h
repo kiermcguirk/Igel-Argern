@@ -17,8 +17,6 @@
 #define NUM_COLUMNS 9
 #define MAX_NAME_LEN 30
 
-
-
 //types of squares
 enum stype{
     NORMAL, OBSTACLE };
@@ -29,11 +27,11 @@ enum color {
 };
 
 //defines a token. 
-//Note each token can be associated with a color
-typedef struct token{
-   enum color col; 
-   struct token *next;
-    
+//Note each token can be associated with a colour
+typedef struct token
+{
+   enum color col; //enum color col attribute
+   struct token *next; //Pointer to next address in the stack
 }token;
 
 //Defines a square of the board.
@@ -42,24 +40,15 @@ typedef struct square{
      enum stype type;
      //the stack of tokens that can be placed on the board square
      token * stack;
-     
-     int numTokens;
+     int numTokens; //number of tokens integer attribute
 }square;
 
 
-
-/*
- * You need to fill this data structure
- * with the information about the player
- * such as a name and a color.
- */
+//Structure for player
 typedef struct player{
-    char username[MAX_NAME_LEN];
-    enum color col;
-    int numTokensLastCol;
-    int winningTokens;
-    
-    
+    char username[MAX_NAME_LEN]; //Char username attribute
+    enum color col; //enum color col attribute
+    int winningTokens; //int winning tokens attribute
 }player; 
 
 
